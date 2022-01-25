@@ -3,6 +3,7 @@
     https://explorer.aelf.io/api/vote/getAllTeamDesc?isActive=true
     https://explorer.aelf.io/new-socket/?EIO=3&transport=polling
     https://explorer.aelf.io/new-socket/?EIO=3&transport=polling&sid=xMoxC1zi4cxzRY_yABQd
+    https://explorer.aelf.io/vote/election
 """
 
 import requests
