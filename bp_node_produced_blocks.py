@@ -7,44 +7,15 @@
 
 import requests
 import json
-import yaml
-import os
-import sqlite3 as sqlite
+from my_db import MyDB
 
 
-class LoadConf(object):
-    @staticmethod
-    def config():
-        path = os.path.dirname(os.path.abspath(__file__))
-        yaml_file = os.path.join(path, "config.yaml")
-        file = open(yaml_file, 'r', encoding='utf-8')
-        data = yaml.load(file.read(), Loader=yaml.Loader)
-        file.close()
-        return data
-
-
-class MyDB(LoadConf):
+class NodeProducedBlocks(MyDB):
     def __init__(self):
-        self.db_file = os.path.join(os.path.dirname(__file__), 'bp_node_produced_blocks.db')
+        super().__init__()
+        self.bp_node_url = self.config()['bp_node_url']
+        self.node_info = self.config()['bp_node']
         self.table_name = "bp_node_produced_blocks"
-
-    def execute_select(self, sql):
-        conn = sqlite.connect(self.db_file)
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        data_info = cursor.fetchall()
-        cursor.close()
-        conn.commit()
-        conn.close()
-        return data_info
-
-    def execute_up(self, sql):
-        conn = sqlite.connect(self.db_file)
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        cursor.close()
-        conn.commit()
-        conn.close()
 
     def create_table(self):
         sql = f'create table {self.table_name}(public_key varchar(255) not null, num int)'
@@ -65,13 +36,6 @@ class MyDB(LoadConf):
     def update(self, key, num):
         sql = f"update {self.table_name} set num = {num} where public_key = '{key}'"
         self.execute_up(sql)
-
-
-class NodeProducedBlocks(MyDB):
-    def __init__(self):
-        super().__init__()
-        self.bp_node_url = self.config()['bp_node_url']
-        self.node_info = self.config()['bp_node']
 
     def node_produced_blocks(self):
         while True:
@@ -115,11 +79,12 @@ class NodeProducedBlocks(MyDB):
 
 
 if __name__ == '__main__':
-    # my_db = MyDB()
-    # my_db.create_table()  # 初始化数据库表，首次执行需要打开注释
     node_data = NodeProducedBlocks()
-    res_data = node_data.main()
-    if res_data:
-        print(res_data)
-    else:
-        print("BP_Produced_Blocks_Normal")
+    try:
+        res_data = node_data.main()
+        if res_data:
+            print(res_data)
+        else:
+            print("BP_Produced_Blocks_Normal")
+    except:
+        node_data.create_table()  # 初始化数据库表
