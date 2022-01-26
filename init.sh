@@ -10,9 +10,13 @@ FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
 
 CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
 
-PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")
+PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")  # 检查 Ubuntu 系统是否安装 python3-pip 软件包
 
-[ "${PIP_PACKAGE}" -eq 0 ] && pip3 install -r "${FOLDER_DIR}"/requestments.txt; [ $? -ne 0 ] && exit 0
+[ "${PIP_PACKAGE}" -eq 0 ] && apt install python3-pip
+
+pip3 install -r "${FOLDER_DIR}"/requestments.txt
+
+[ $? -ne 0 ] && exit 0
 
 [ "${CONF_NUM}" -eq 0 ] && echo "Include=${FOLDER_DIR}/*.conf" >> ${CONFIG_FILE}
 
