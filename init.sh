@@ -1,7 +1,17 @@
 #!/bin/bash
 
+# git clone https://github.com/AElfProject/aelf-devops.git
+
 set -e
 
-echo "Include=/etc/zabbix/zabbix_agentd.d/aelf-devops/*.conf" >> /etc/zabbix/zabbix_agentd.conf
-chmod -R 777 sqlite3/
-/etc/init.d/zabbix-agent restart
+CONFIG_FILE="/etc/zabbix/zabbix_agentd.conf"
+
+FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
+
+CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
+
+[ "${CONF_NUM}" -eq 0 ] && echo "Include=${FOLDER_DIR}/*.conf" >> ${CONFIG_FILE}
+
+
+#chmod -R 777 sqlite3/
+#/etc/init.d/zabbix-agent restart
