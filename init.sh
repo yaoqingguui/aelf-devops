@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# git clone https://github.com/AElfProject/aelf-devops.git
+# cd /etc/zabbix/zabbix_agentd.d/ && git clone https://github.com/AElfProject/aelf-devops.git && cd aelf-devops/
 
 # set -e
 
@@ -10,9 +10,9 @@ FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
 
 CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
 
-pip3 install -r "${FOLDER_DIR}"/requestments.txt
+PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")
 
-[ $? -ne 0 ] && exit 0
+[ "${PIP_PACKAGE}" -eq 0 ] && pip3 install -r "${FOLDER_DIR}"/requestments.txt; [ $? -ne 0 ] && exit 0
 
 [ "${CONF_NUM}" -eq 0 ] && echo "Include=${FOLDER_DIR}/*.conf" >> ${CONFIG_FILE}
 
