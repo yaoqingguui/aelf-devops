@@ -61,12 +61,19 @@ class NodeProducedBlocks(MyDB):
     def main(self):
         bp_produced_blocks = self.node_produced_blocks()
         data_list = []
+        public_key_list = []
         for node in self.node_info:
             name = node['name']
             address = node['address']
             public_key = node['public_key']
+            public_key_list.append(public_key)
             db_blocks = self.select(public_key)
-            chain_blocks = bp_produced_blocks[public_key]
+
+            try:
+                chain_blocks = bp_produced_blocks[public_key]
+            except KeyError:
+                continue
+
             if db_blocks is None:
                 self.insert(public_key, chain_blocks)
                 continue
@@ -77,6 +84,11 @@ class NodeProducedBlocks(MyDB):
                 data_list.append(data_dict)
 
             self.update(public_key, chain_blocks)
+
+        for bp_public_key in bp_produced_blocks.keys():
+            if bp_public_key not in public_key_list:
+                data_list.append({"public_key": bp_public_key, "info": "配置中没有找到BP节点信息"})
+
         return data_list
 
 

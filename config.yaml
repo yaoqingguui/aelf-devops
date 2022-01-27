@@ -52,7 +52,9 @@ bp_node:
   - name: HuobiPool
     address: vpeuv7QB7QWBmxkA51j6B53C6RekbfBznEuwemT8xuiEJd6GP
     public_key: 04f7760c46da886f7e06e8e665cbab7d63cfe825c680dce990fcb2c3b7a01c7236e0ae40aacb32bbc4fffc57ae45bc1fe5344461efeed2b4660aef3ec3f9e35b15
-
+  - name: MetaDefy
+    address: Lmemfcp2nB8kAvQDLxsLtQuHWgpH5gUWVmmcEkpJ2kRY9Jv25
+    public_key: 0458ad2ec4d8944bff7f3ab7b56a90ffca784b0632bdf8c4a952da153b24b3fbbda5432f5ef293ab7ced791969f5fe02b0b5e6bc5af7ce074a9dc386c8dab0e6db
 
 
 
