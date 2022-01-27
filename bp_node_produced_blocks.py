@@ -9,6 +9,7 @@
 import requests
 import json
 from my_db import MyDB
+import sqlite3
 
 
 class NodeProducedBlocks(MyDB):
@@ -87,5 +88,5 @@ if __name__ == '__main__':
             print(res_data)
         else:
             print("BP_Produced_Blocks_Normal")
-    except:
+    except sqlite3.OperationalError:
         node_data.create_table()  # 初始化数据库表
