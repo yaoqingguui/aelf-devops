@@ -2,7 +2,7 @@
 
 ## Install
 ```shell
-bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh install")
+bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh") install
 ```
 ### verify
 output node height
@@ -23,13 +23,13 @@ python3 /etc/zabbix/zabbix_agentd.d/aelf-devops/bp_node_produced_blocks.py
 
 ## Update
 ```shell
-bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh update")
+bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh") update
 
 ```
 
 
 ## Uninstall
 ```shell
-bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh uninstall")
+bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh") uninstall
 
 ```
