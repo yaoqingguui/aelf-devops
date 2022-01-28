@@ -1,5 +1,5 @@
 """
-    监控aelf节点出块高度和出块时间差异
+    Monitor the block height and block time difference of AELF nodes
 """
 
 import requests
@@ -18,7 +18,7 @@ def node_block_height_utctime(height_num, ip="127.0.0.1"):
     height_url = f"http://{ip}:8000/api/blockChain/blockByHeight"
     params = {"blockHeight": height_num}
     res_date_str = requests.get(url=height_url, params=params).text
-    res_date_str = json.loads(res_date_str)  # 格式化数据为字典格式
+    res_date_str = json.loads(res_date_str)  # Format data as dictionary format
     utc_time = res_date_str["Header"]["Time"]
     return utc_time
 

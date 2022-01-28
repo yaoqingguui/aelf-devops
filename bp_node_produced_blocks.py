@@ -1,5 +1,5 @@
 """
-    监控aelf BP节点出块是否正常
+    Monitor whether the block production of AELF BP node is normal
     https://explorer.aelf.io/api/vote/getAllTeamDesc?isActive=true
     https://explorer.aelf.io/new-socket/?EIO=3&transport=polling
     https://explorer.aelf.io/new-socket/?EIO=3&transport=polling&sid=xMoxC1zi4cxzRY_yABQd
@@ -42,16 +42,16 @@ class NodeProducedBlocks(MyDB):
     def node_produced_blocks(self):
         while True:
             params = {"EIO": 3, "transport": "polling"}
-            data_sid_str = requests.get(url=self.bp_node_url, params=params).text  # 获取 sid
+            data_sid_str = requests.get(url=self.bp_node_url, params=params).text  # get sid
             params["sid"] = data_sid_str.split('"')[3]
-            new_data_str = requests.get(url=self.bp_node_url, params=params).text  # 获取最终数据
+            new_data_str = requests.get(url=self.bp_node_url, params=params).text  # get final data
             new_data_list = list(new_data_str)
             while True:
                 if new_data_list[0] == '[':
                     break
                 else:
                     del new_data_list[0]
-            res_data_str = "".join(new_data_list)  # list 转 str
+            res_data_str = "".join(new_data_list)  # list convert str
             try:
                 res_data_dict = json.loads(res_data_str)[1]
                 return res_data_dict
@@ -87,7 +87,7 @@ class NodeProducedBlocks(MyDB):
 
         for bp_public_key in bp_produced_blocks.keys():
             if bp_public_key not in public_key_list:
-                data_list.append({"public_key": bp_public_key, "info": "配置中没有找到BP节点信息"})
+                data_list.append({"public_key": bp_public_key, "info": "BP node configuration not found"})
 
         return data_list
 
@@ -101,4 +101,4 @@ if __name__ == '__main__':
         else:
             print("BP_Produced_Blocks_Normal")
     except sqlite3.OperationalError:
-        node_data.create_table()  # 初始化数据库表
+        node_data.create_table()  # Initialize database tables

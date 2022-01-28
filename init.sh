@@ -9,9 +9,9 @@ FOLDER_DIR="/etc/zabbix/zabbix_agentd.d/aelf-devops"
 CONFIG_FILE="/etc/zabbix/zabbix_agentd.conf"
 
 CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
-PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")  # 检查 Ubuntu 系统是否安装 python3-pip 软件包
+PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")  # Check if the python3-pip package is installed on the Ubuntu system
 
-#[ ! -d ${FOLDER_DIR} ] && echo "${FOLDER_DIR} 目录不存在" && exit 1;
+#[ ! -d ${FOLDER_DIR} ] && echo "${FOLDER_DIR} directory does not exist" && exit 1;
 
 git clone ${GITHUB_URL} ${FOLDER_DIR}
 
