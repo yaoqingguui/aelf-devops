@@ -28,7 +28,7 @@ uninstall_scripts() {
 
 
 update_scripts() {
-  cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ]; exit 0; }
+  cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ] && exit 0; }
   FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
 
   if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
