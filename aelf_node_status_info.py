@@ -37,9 +37,10 @@ if __name__ == '__main__':
         block_utc_time_array = time.strptime(block_utc_time_str, "%Y-%m-%d %H:%M:%S")
         block_utc_time_stamp = int(time.mktime(block_utc_time_array))
         time_diff = local_time_stamp - block_utc_time_stamp
-        if int(time_diff) > int(sys.argv[2]):
-            print(time_diff)
-        else:
-            print(0)
+        # if int(time_diff) > int(sys.argv[2]):
+        #     print(time_diff)
+        # else:
+        #     print(0)
+        print(time_diff)
     else:
         pass
