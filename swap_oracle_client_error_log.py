@@ -15,7 +15,7 @@ class SwapOracleClientError(LoadConf):
         for logs in self.swap_oracle_client_log:
             if os.path.exists(logs):
                 command = f"grep -r '\[ERR\]' {logs} | grep '{old_1_min}'"
-                # command = f"grep -r '\[ERR\]' {logs} | grep -E '2022-02-05 01:5|2021-09-08 17:43|2021-09-13 12:22|2021-09-12 04:5'"
+                # command = f"grep -r '\[ERR\]' {logs} | grep -E '2022-02-05 01:5|2021-09-08 17:43'"
                 error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                              encoding="utf-8")
                 output, error = error_log.communicate()
