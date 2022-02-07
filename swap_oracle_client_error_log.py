@@ -28,6 +28,9 @@ class SwapOracleClientError(LoadConf):
 if __name__ == '__main__':
     swap_oracle_client = SwapOracleClientError()
     error_list = swap_oracle_client.check_error_log()
-    for line in error_list:
-        print(line)
+    error_str = str(error_list)
+    print(error_str)
+    # for line in error_list:
+    #     print(line)
+
 
