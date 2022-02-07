@@ -21,8 +21,8 @@ class SwapOracleClientError(LoadConf):
                 error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                              encoding="utf-8")
                 output, error = error_log.communicate()
-                print(output)
-                print(error)
+                print(len(output.split(os.linesep)))
+                print(output.split(os.linesep))
 
 
 # grep -r "\[ERR\]" /opt/swap-oracle-client*/Logs/ | grep "2022-02-05 01:5"
