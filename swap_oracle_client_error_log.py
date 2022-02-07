@@ -1,6 +1,7 @@
 
 import datetime
 import os
+import subprocess
 
 from config import LoadConf
 
@@ -17,6 +18,9 @@ class SwapOracleClientError(LoadConf):
         for logs in self.swap_oracle_client_log:
             if os.path.exists(logs):
                 print(logs)
+                command = f"grep -r '\[ERR\]' {logs}"
+                res_str = subprocess.getoutput(command)
+                print(res_str)
 
 
 # grep -r "\[ERR\]" /opt/swap-oracle-client*/Logs/ | grep "2022-02-05 01:5"
