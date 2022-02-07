@@ -28,9 +28,29 @@ class SwapOracleClientError(LoadConf):
 if __name__ == '__main__':
     swap_oracle_client = SwapOracleClientError()
     error_list = swap_oracle_client.check_error_log()
-    error_str = '\n'.join(error_list)
+
+    new_error_list = []
+    for line in error_list:
+        if line:
+            new_error_list.append(line)
+
+    if new_error_list:
+        error_str = '\n'.join(new_error_list)
+    else:
+        error_str = "Log_Normal"
     print(error_str)
     # for line in error_list:
     #     print(line)
 
+    # ll = ["", "", ""]
+    # ll_new = []
+    # for line in ll:
+    #     if line:
+    #         ll_new.append(line)
+    #
+    # print(ll_new)
+    # ss = '\n'.join(ll_new)
+    # print(ss)
+    # if ss:
+    #     print('111')
 
