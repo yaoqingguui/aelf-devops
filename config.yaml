@@ -57,4 +57,11 @@ bp_node:
     public_key: 0458ad2ec4d8944bff7f3ab7b56a90ffca784b0632bdf8c4a952da153b24b3fbbda5432f5ef293ab7ced791969f5fe02b0b5e6bc5af7ce074a9dc386c8dab0e6db
 
 
+swap_oracle_client_log:
+  - "/opt/swap-oracle-client-1/Logs"
+  - "/opt/swap-oracle-client-2/Logs"
+  - "/opt/swap-oracle-client-3/Logs"
+  - "/opt/swap-oracle-client-4/Logs"
+  - "/opt/swap-oracle-client-5/Logs"
+  - "/opt/swap-service/Logs"
 

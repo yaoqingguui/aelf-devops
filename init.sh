@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# set -e
+set -e
 
 GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
 #FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
@@ -14,7 +14,7 @@ install_scripts() {
   PIP_PACKAGE=$(dpkg -l | grep -c "python3-pip")
   [ "${PIP_PACKAGE}" -eq 0 ] && apt install -y python3-pip
   pip3 install -r "${FOLDER_DIR}"/requestments.txt
-  [ $? -ne 0 ] && exit 0
+  #[ $? -ne 0 ] && exit 0
   [ "${CONF_NUM}" -eq 0 ] && echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
   chmod -R 777 "${FOLDER_DIR}"/sqlite3/
 }
@@ -35,6 +35,8 @@ update_scripts() {
     sed -i '/aelf-devops/d' ${CONFIG_FILE}
     echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
   fi;
+
+  pip3 install -r "${FOLDER_DIR}"/requestments.txt
 }
 
 
