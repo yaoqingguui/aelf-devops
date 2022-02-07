@@ -25,7 +25,7 @@ class SwapOracleClientError(LoadConf):
                 # print(len(output.split(os.linesep)))
                 # print(output.split(os.linesep))
                 if len(output.split(os.linesep)) > 1:
-                    error_log_list.append(output)
+                    error_log_list = error_log_list + output.split(os.linesep)
         return error_log_list
 
 
