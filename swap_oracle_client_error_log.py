@@ -23,5 +23,5 @@ class SwapOracleClientError(LoadConf):
 if __name__ == '__main__':
     print(old_1_min)
     swap_oracle_client = SwapOracleClientError()
-    print(swap_oracle_client.check_error_log())
+    swap_oracle_client.check_error_log()
 
