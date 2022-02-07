@@ -14,11 +14,11 @@ class SwapOracleClientError(LoadConf):
         old_1_min = (datetime.datetime.now() - datetime.timedelta(minutes=1)).strftime("%Y-%m-%d %H:%M")
         for logs in self.swap_oracle_client_log:
             if os.path.exists(logs):
-                print(logs)
+                # print(logs)
                 command = f"grep -r '\[ERR\]' {logs} | grep '{old_1_min}'"
-                # res_str = subprocess.getoutput(command)
-                error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                             encoding="utf-8")
+                error_log = subprocess.getoutput(command)
+                # error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                #                              encoding="utf-8")
                 print(error_log)
 
 
