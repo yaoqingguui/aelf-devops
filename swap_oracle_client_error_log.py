@@ -16,10 +16,12 @@ class SwapOracleClientError(LoadConf):
             if os.path.exists(logs):
                 # print(logs)
                 command = f"grep -r '\[ERR\]' {logs} | grep '{old_1_min}'"
-                error_log = subprocess.getoutput(command)
-                # error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                #                              encoding="utf-8")
-                print(error_log)
+                # error_log = subprocess.getoutput(command)
+                error_log = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                             encoding="utf-8")
+                output, error = error_log.communicate()
+                print(output)
+                print(error)
 
 
 # grep -r "\[ERR\]" /opt/swap-oracle-client*/Logs/ | grep "2022-02-05 01:5"
