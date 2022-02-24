@@ -3,3 +3,5 @@ venv/
 .DS_Store
 __pycache__
 sqlite3/my.db
+build/
+dist/

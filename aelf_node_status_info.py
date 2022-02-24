@@ -24,7 +24,7 @@ def node_block_height_utctime(height_num, ip="127.0.0.1"):
 
 
 if __name__ == '__main__':
-    # ip = "18.185.93.36"
+    # test_ip = "18.185.93.36"
     try:
         num = node_block_height()
         if sys.argv[1] == "block_height":
