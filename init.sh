@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+#set -e
 
 GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
 #FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
@@ -62,7 +62,7 @@ case "$1" in
 #        restart_server
 #        ;;
     *)
-        echo "Usage: $0 {install|uninstall|update}"
+        echo "Usage: $0 {install|uninstall}"
         exit 2
 esac
 
