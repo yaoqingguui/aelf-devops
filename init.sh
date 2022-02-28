@@ -28,15 +28,18 @@ uninstall_scripts() {
 
 
 update_scripts() {
-  cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ] && exit 0; }
-  FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
+  if [ -d "${FOLDER_DIR}" ]; then
+    cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ] && exit 0; }
+    FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
 
-  if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
-    sed -i '/aelf-devops/d' ${CONFIG_FILE}
-    echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
-  fi;
-
-  pip3 install -r "${FOLDER_DIR}"/requestments.txt
+    if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
+      sed -i '/aelf-devops/d' ${CONFIG_FILE}
+      echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
+    fi;
+    pip3 install -r "${FOLDER_DIR}"/requestments.txt
+  else
+    install_scripts
+  fi
 }
 
 
@@ -47,17 +50,17 @@ restart_server() {
 
 case "$1" in
     install)
-        install_scripts
+        update_scripts
         restart_server
         ;;
     uninstall)
         uninstall_scripts
         restart_server
         ;;
-    update)
-        update_scripts
-        restart_server
-        ;;
+#    update)
+#        update_scripts
+#        restart_server
+#        ;;
     *)
         echo "Usage: $0 {install|uninstall|update}"
         exit 2
