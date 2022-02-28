@@ -1,15 +1,9 @@
 # AELF-DEVOPS
 
-## Install
+## Install or Update
 ```shell
 $ bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh") install
 ```
-
-## Update
-```shell
-$ bash <(curl -s "https://raw.githubusercontent.com/AElfProject/aelf-devops/main/init.sh") update
-```
-
 
 ## Uninstall
 ```shell
