@@ -66,8 +66,7 @@ def main(resource, threshold):
             res_list = []
             for line in mem_top3_list:
                 pid = line[0]
-                res_list.append({'PID': pid, 'CPU': line[1], 'MEM': line[2], 'NAME': pid_name_rss(pid)[0],
-                                 'MEM_RSS': pid_name_rss(pid)[1]})
+                res_list.append({'PID': pid, 'CPU': line[1], 'MEM': line[2], 'INFO': pid_name_rss(pid)})
             return res_list
         else:
             return None
@@ -79,8 +78,7 @@ def main(resource, threshold):
             res_list = []
             for line in cpu_top3_list:
                 pid = line[0]
-                res_list.append({'PID': pid, 'CPU': line[1], 'MEM': line[2], 'NAME': pid_name_rss(pid)[0],
-                                 'MEM_RSS': pid_name_rss(pid)[1]})
+                res_list.append({'PID': pid, 'CPU': line[1], 'MEM': line[2], 'INFO': pid_name_rss(pid)})
             return res_list
         else:
             return None
