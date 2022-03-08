@@ -1,0 +1,33 @@
+name: deploy scripts to aws
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 切换分支
+      - name: Checkout
+        uses: actions/checkout@main
+
+      # Deploy
+      - name: SSH Batch Deploy
+        uses: AElfProject/aelf-devops@ssh_batch_deploy
+        env:
+          DIR: /tmp/aabbcc
+        with:
+          host: []
+          user: "root"
+          pass: ""
+          port: 22
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          connect_timeout: 30s
+          script: |
+            mkdir -p ${DIR} || true
+            touch ${DIR}/1.log
+            ls -la ${DIR}
+
+
