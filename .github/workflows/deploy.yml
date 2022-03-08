@@ -19,9 +19,7 @@ jobs:
         env:
           DIR: /tmp/aabbcc
         with:
-          host_port:
-            - "34.210.76.125:11235"
-            - "18.237.28.143:11235"
+          host_port: ["34.210.76.125:11235", "18.237.28.143:11235"]
           user: "root"
           pass: ""
           port: 22
