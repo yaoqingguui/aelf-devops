@@ -1,0 +1,32 @@
+name: 'ssh batch deploy'
+description: 'ssh batch deploy'
+author: 'Leeks'
+inputs:
+  host_port:
+    description: 'ssh hosts'
+    required: true
+  port:
+    description: 'ssh port'
+    default: 22
+  user:
+    description: 'ssh user'
+    required: true
+  key:
+    description: 'ssh private key'
+    required: false
+  pass:
+    description: 'ssh user password'
+    required: false
+  connect_timeout:
+    description: 'connection timeout to host'
+    default: "30s"
+    required: false
+  script:
+    description: 'execute commands on ssh'
+    required: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'terminal'
+  color: 'gray-dark'
