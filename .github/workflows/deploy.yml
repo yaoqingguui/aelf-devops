@@ -32,4 +32,3 @@ jobs:
             touch $DIR/1.log
             echo "sssaaaff" > $DIR/1.log
             ls -la $DIR
-
