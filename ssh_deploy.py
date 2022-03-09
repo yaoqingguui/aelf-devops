@@ -55,13 +55,14 @@ def ssh_process():
     with paramiko.SSHClient() as ssh:
         tmp = tempfile.NamedTemporaryFile(delete=False)
         try:
-            p_key = None
-            if INPUT_SSH_PRIVATE_KEY:
-                tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
-                tmp.close()
-                p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             for line in hp:
+                p_key = None
+                if INPUT_SSH_PRIVATE_KEY:
+                    tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
+                    tmp.close()
+                    p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
+                    
                 host_port = line.split(':')
                 if len(host_port) > 1:
                     host = host_port[0]
