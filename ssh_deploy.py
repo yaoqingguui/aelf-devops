@@ -16,6 +16,8 @@ INPUT_SCRIPT = environ.get("INPUT_SCRIPT")
 seconds_per_unit = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800, "M": 86400 * 30}
 pattern_seconds_per_unit = re.compile(r'^(' + "|".join(['\\d+' + k for k in seconds_per_unit.keys()]) + ')$')
 
+print(f"INPUT_SSH_PRIVATE_KEY: {INPUT_SSH_PRIVATE_KEY}")
+
 
 def convert_to_seconds(s):
     if s is None:
