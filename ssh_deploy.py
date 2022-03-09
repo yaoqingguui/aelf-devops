@@ -9,7 +9,7 @@ INPUT_HOST_PORT = environ.get("INPUT_HOST_PORT")
 INPUT_PORT = int(environ.get("INPUT_PORT", "22"))
 INPUT_USER = environ.get("INPUT_USER")
 INPUT_PASS = environ.get("INPUT_PASS")
-INPUT_SSH_PRIVATE_KEY = environ.get("INPUT_KEY")
+INPUT_SSH_PRIVATE_KEY = environ.get("INPUT_SSH_PRIVATE_KEY")
 INPUT_CONNECT_TIMEOUT = environ.get("INPUT_CONNECT_TIMEOUT", "30s")
 INPUT_SCRIPT = environ.get("INPUT_SCRIPT")
 
