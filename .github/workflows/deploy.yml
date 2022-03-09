@@ -31,4 +31,3 @@ jobs:
             mkdir -p $DIR || true
             touch $DIR/1.log
             ls -la $DIR
-
