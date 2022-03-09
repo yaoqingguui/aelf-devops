@@ -22,7 +22,7 @@ jobs:
           user: root
           host_port: |
             34.210.76.125:11235
-            18.237.28.143:11235
+            13.251.77.200:11235
           pass: ""
           port: 22
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
