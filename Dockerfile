@@ -10,6 +10,5 @@ RUN mkdir -p /opt/tools
 COPY ssh_deploy.py /opt/tools/ssh_deploy.py
 RUN chmod +x /opt/tools/ssh_deploy.py
 
-ENTRYPOINT ["ls -al /opt/tools/ssh_deploy.py"]
-ENTRYPOINT ["ls -al /github"]
+ENTRYPOINT ["ls -al /opt/tools/"]
 
