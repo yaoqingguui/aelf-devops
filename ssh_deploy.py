@@ -52,26 +52,27 @@ def ssh_process():
     command_str = command_str.strip()
     print(f"command_str: {command_str}")
 
-    with paramiko.SSHClient() as ssh:
-        tmp = tempfile.NamedTemporaryFile(delete=False)
-        try:
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            for line in hp:
+    for line in hp:
+        host_port = line.split(':')
+        if len(host_port) > 1:
+            host = host_port[0]
+            port = host_port[1]
+        else:
+            host = host_port[0]
+            port = INPUT_PORT
+
+        print(f"HOST: {host}")
+
+        with paramiko.SSHClient() as ssh:
+            tmp = tempfile.NamedTemporaryFile(delete=False)
+            try:
                 p_key = None
                 if INPUT_SSH_PRIVATE_KEY:
                     tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
                     tmp.close()
                     p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
-                    
-                host_port = line.split(':')
-                if len(host_port) > 1:
-                    host = host_port[0]
-                    port = host_port[1]
-                else:
-                    host = host_port[0]
-                    port = INPUT_PORT
 
-                print(f"HOST: {host}")
+                ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
                 ssh.connect(host, port=port, username=INPUT_USER, pkey=p_key, password=INPUT_PASS,
                             timeout=convert_to_seconds(INPUT_CONNECT_TIMEOUT))
 
@@ -88,9 +89,9 @@ def ssh_process():
                         raise Exception(err)
                     else:
                         print(f"Error: \n{err}")
-        finally:
-            os.unlink(tmp.name)
-            tmp.close()
+            finally:
+                os.unlink(tmp.name)
+                tmp.close()
 
 
 if __name__ == '__main__':
