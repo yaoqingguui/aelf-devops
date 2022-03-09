@@ -68,9 +68,10 @@ def ssh_process():
             try:
                 p_key = None
                 if INPUT_SSH_PRIVATE_KEY:
-                    print("12332112321231231")
                     tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
                     tmp.close()
+                    print(tmp.name)
+                    print(tmp.readlines())
                     p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
 
                 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
