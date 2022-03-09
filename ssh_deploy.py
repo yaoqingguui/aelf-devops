@@ -16,8 +16,6 @@ INPUT_SCRIPT = environ.get("INPUT_SCRIPT")
 seconds_per_unit = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800, "M": 86400 * 30}
 pattern_seconds_per_unit = re.compile(r'^(' + "|".join(['\\d+' + k for k in seconds_per_unit.keys()]) + ')$')
 
-print(f"INPUT_SSH_PRIVATE_KEY: {INPUT_SSH_PRIVATE_KEY}")
-
 
 def convert_to_seconds(s):
     if s is None:
@@ -36,7 +34,7 @@ def ssh_process():
 
     print("+++++++++++++++++++Pipeline: RUNNING SSH+++++++++++++++++++")
     hp = [c.strip() for c in INPUT_HOST_PORT.splitlines() if c is not None]
-    print(hp)
+    print(f"HOST_PORT: {hp}")
 
     commands = [c.strip() for c in INPUT_SCRIPT.splitlines() if c is not None]
     print(f"commands: {commands}")
@@ -52,7 +50,7 @@ def ssh_process():
             c = f"{c} &&" if i < (len(commands) - 1) else c
         command_str = f"{command_str} {c}"
     command_str = command_str.strip()
-    print(command_str)
+    print(f"command_str: {command_str}")
 
     with paramiko.SSHClient() as ssh:
         tmp = tempfile.NamedTemporaryFile(delete=False)
@@ -60,13 +58,9 @@ def ssh_process():
             p_key = None
             if INPUT_SSH_PRIVATE_KEY:
                 tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
-                print(INPUT_SSH_PRIVATE_KEY.encode())
-                print("1111")
-                print(INPUT_SSH_PRIVATE_KEY)
                 tmp.close()
                 p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            print(f"p_key: {p_key}")
             for line in hp:
                 host_port = line.split(':')
                 if len(host_port) > 1:
@@ -76,6 +70,7 @@ def ssh_process():
                     host = host_port[0]
                     port = INPUT_PORT
 
+                print(f"HOST: {host}")
                 ssh.connect(host, port=port, username=INPUT_USER, pkey=p_key, password=INPUT_PASS,
                             timeout=convert_to_seconds(INPUT_CONNECT_TIMEOUT))
 
