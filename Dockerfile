@@ -12,6 +12,4 @@ RUN chmod +x /opt/tools/ssh_deploy.py
 
 #ENTRYPOINT ["python3 /opt/tools/ssh_deploy.py"]
 ENTRYPOINT ["ls -al /github"]
-ENTRYPOINT ["ls -al /github/workspace"]
-ENTRYPOINT ["ls -al /github/home"]
-ENTRYPOINT ["ls -al /github/workflow"]
+
