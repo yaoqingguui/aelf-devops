@@ -11,7 +11,7 @@ inputs:
   user:
     description: 'ssh user'
     required: true
-  key:
+  ssh_private_key:
     description: 'ssh private key'
     required: false
   pass:

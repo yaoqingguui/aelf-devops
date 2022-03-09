@@ -9,7 +9,7 @@ INPUT_HOST_PORT = environ.get("INPUT_HOST_PORT")
 INPUT_PORT = int(environ.get("INPUT_PORT", "22"))
 INPUT_USER = environ.get("INPUT_USER")
 INPUT_PASS = environ.get("INPUT_PASS")
-INPUT_KEY = environ.get("INPUT_KEY")
+INPUT_SSH_PRIVATE_KEY = environ.get("INPUT_KEY")
 INPUT_CONNECT_TIMEOUT = environ.get("INPUT_CONNECT_TIMEOUT", "30s")
 INPUT_SCRIPT = environ.get("INPUT_SCRIPT")
 
@@ -28,7 +28,7 @@ def convert_to_seconds(s):
 
 
 def ssh_process():
-    if INPUT_SCRIPT is None or INPUT_SCRIPT == "" or (INPUT_KEY is None and INPUT_PASS is None):
+    if INPUT_SCRIPT is None or INPUT_SCRIPT == "" or (INPUT_SSH_PRIVATE_KEY is None and INPUT_PASS is None):
         print("SSH invalid (Script/Key/Passwd)")
         return
 
@@ -54,8 +54,8 @@ def ssh_process():
         tmp = tempfile.NamedTemporaryFile(delete=False)
         try:
             p_key = None
-            if INPUT_KEY:
-                tmp.write(INPUT_KEY.encode())
+            if INPUT_SSH_PRIVATE_KEY:
+                tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
                 tmp.close()
                 p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
