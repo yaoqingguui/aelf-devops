@@ -28,7 +28,7 @@ jobs:
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           connect_timeout: 30s
           script: |
-            mkdir -p ${DIR} || true
-            touch ${DIR}/1.log
-            ls -la ${DIR}
+            mkdir -p ${{ DIR }} || true
+            touch ${{ DIR }}/1.log
+            ls -la ${{ DIR }}
 
