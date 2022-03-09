@@ -33,7 +33,9 @@ def ssh_process():
         return
 
     print("+++++++++++++++++++Pipeline: RUNNING SSH+++++++++++++++++++")
-    print(INPUT_HOST_PORT)
+    hp = [c.strip() for c in INPUT_HOST_PORT.splitlines() if c is not None]
+
+    print(hp)
     commands = [c.strip() for c in INPUT_SCRIPT.splitlines() if c is not None]
     print(f"commands: {commands}")
     command_str = ""
@@ -60,7 +62,7 @@ def ssh_process():
                 p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-            for line in INPUT_HOST_PORT:
+            for line in hp:
                 host_port = line.split(':')
                 if len(host_port) > 1:
                     host = host_port[0]
