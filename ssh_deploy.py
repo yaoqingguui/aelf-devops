@@ -61,7 +61,7 @@ def ssh_process():
                 tmp.close()
                 p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
+            print(f"p_key: {p_key}")
             for line in hp:
                 host_port = line.split(':')
                 if len(host_port) > 1:
@@ -71,8 +71,7 @@ def ssh_process():
                     host = host_port[0]
                     port = INPUT_PORT
 
-                ssh.connect(host, port=port, username=INPUT_USER,
-                            pkey=p_key, password=INPUT_PASS,
+                ssh.connect(host, port=port, username=INPUT_USER, pkey=p_key, password=INPUT_PASS,
                             timeout=convert_to_seconds(INPUT_CONNECT_TIMEOUT))
 
                 stdin, stdout, stderr = ssh.exec_command(command_str)
