@@ -1,2 +1,1 @@
 paramiko==2.9.2
-pycrypto==2.6.1
