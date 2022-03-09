@@ -61,13 +61,14 @@ def ssh_process():
             host = host_port[0]
             port = INPUT_PORT
 
-        print(f"HOST: {host}")
+        print(f"HOST: {host} PORT: {port}")
 
         with paramiko.SSHClient() as ssh:
             tmp = tempfile.NamedTemporaryFile(delete=False)
             try:
                 p_key = None
                 if INPUT_SSH_PRIVATE_KEY:
+                    print("12332112321231231")
                     tmp.write(INPUT_SSH_PRIVATE_KEY.encode())
                     tmp.close()
                     p_key = paramiko.RSAKey.from_private_key_file(filename=tmp.name)
