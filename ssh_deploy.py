@@ -34,8 +34,8 @@ def ssh_process():
 
     print("+++++++++++++++++++Pipeline: RUNNING SSH+++++++++++++++++++")
     hp = [c.strip() for c in INPUT_HOST_PORT.splitlines() if c is not None]
-
     print(hp)
+
     commands = [c.strip() for c in INPUT_SCRIPT.splitlines() if c is not None]
     print(f"commands: {commands}")
     command_str = ""
