@@ -2,7 +2,7 @@ name: deploy scripts to aws
 on:
   push:
     branches:
-      - main
+      - main1
 jobs:
   build:
     name: Build
