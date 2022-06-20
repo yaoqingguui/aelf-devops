@@ -34,7 +34,9 @@ install_agent2() {
   agent2_num=$(dpkg -l |grep  "^ii"|awk '{print $2}' |grep -wc zabbix-agent2)
   if [ "${agent2_num}" -eq 0 ]; then
     Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
-    wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb -P /tmp
+    if [ ! -f "/tmp/zabbix-release_6.0-1+ubuntu${Ubuntu_Version_ID}_all.deb" ]; then
+      wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb -P /tmp
+    fi
     dpkg -i /tmp/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb
     apt -y update
     apt install -y zabbix-agent2
