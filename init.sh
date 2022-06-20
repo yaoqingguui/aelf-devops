@@ -69,8 +69,11 @@ update_scripts() {
     if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
       sed -i '/aelf-devops/d' ${CONFIG_FILE}
       echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
+    elif [ "${CONF_NUM}" -eq 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
+        echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
     fi;
     pip3 install -r "${FOLDER_DIR}"/requestments.txt
+
   else
     install_scripts
   fi
