@@ -57,6 +57,7 @@ install_scripts() {
 
 
 uninstall_scripts() {
+  CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
   [ "${CONF_NUM}" -ne 0 ] && sed -i '/aelf-devops/d' ${CONFIG_FILE}
   date=$(date "+%Y%m%d-%H%M")
   mv ${FOLDER_DIR} /tmp/aelf-devops-"${date}"
@@ -64,19 +65,19 @@ uninstall_scripts() {
 
 
 update_scripts() {
+  CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
+
   if [ -d "${FOLDER_DIR}" ]; then
     cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ] && exit 0; }
     FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
 
-    CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
-    echo "${CONF_NUM}"
     if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
       sed -i '/aelf-devops/d' ${CONFIG_FILE}
       echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
     elif [ "${CONF_NUM}" -eq 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
       echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
     else
-      echo "123456"
+      echo "1"
     fi;
     pip3 install -r "${FOLDER_DIR}"/requestments.txt
 
