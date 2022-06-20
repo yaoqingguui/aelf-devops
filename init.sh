@@ -69,12 +69,14 @@ update_scripts() {
     FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
 
     CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
-
+    echo "${CONF_NUM}"
     if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
       sed -i '/aelf-devops/d' ${CONFIG_FILE}
       echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
     elif [ "${CONF_NUM}" -eq 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
-        echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
+      echo "Include=${FOLDER_DIR}/zabbix-user-parameter.conf" >> ${CONFIG_FILE}
+    else
+      echo "123456"
     fi;
     pip3 install -r "${FOLDER_DIR}"/requestments.txt
 
