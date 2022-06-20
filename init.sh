@@ -1,12 +1,46 @@
 #!/bin/bash
 
 #set -e
+ServerIP="${2:-172.31.15.92}"
 
 GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
 #FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
-FOLDER_DIR="/etc/zabbix/zabbix_agentd.d/aelf-devops"
-CONFIG_FILE="/etc/zabbix/zabbix_agentd.conf"
+OLD_FOLDER_DIR="/etc/zabbix/zabbix_agentd.d/aelf-devops"
+FOLDER_DIR="/etc/zabbix/aelf-devops"
+CONFIG_FILE="/etc/zabbix/zabbix_agent2.conf"
 CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
+
+
+remove_agent() {
+  agent_num=$(dpkg -l |grep  "^ii"|awk '{print $2}' |grep -wc zabbix-agent)
+  if [ "${agent_num}" -ne 0 ]; then
+    systemctl stop zabbix-agent.service
+    dpkg -l |grep  "^ii"|awk '{print $2}' |grep -E zabbix | xargs apt-get --purge remove -y
+  fi
+}
+
+
+config_agent2() {
+  sed -i "s#Server=127.0.0.1#Server=${ServerIP}#g" "${CONFIG_FILE}"
+  sed -i "s#ServerActive=127.0.0.1#ServerActive=${ServerIP}#g" "${CONFIG_FILE}"
+
+  if [ -d "${OLD_FOLDER_DIR}" ]; then
+    cp -a ${OLD_FOLDER_DIR} ${FOLDER_DIR}
+  fi
+}
+
+
+install_agent2() {
+  agent2_num=$(dpkg -l |grep  "^ii"|awk '{print $2}' |grep -wc zabbix-agent2)
+  if [ "${agent2_num}" -eq 0 ]; then
+    Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
+    wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb -P /tmp
+    dpkg -i /tmp/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb
+    apt -y update
+    apt install -y zabbix-agent2
+    config_agent2
+  fi
+}
 
 
 install_scripts() {
@@ -44,25 +78,23 @@ update_scripts() {
 
 
 restart_server() {
-  /etc/init.d/zabbix-agent restart
+  /etc/init.d/zabbix-agent2 restart
 }
 
 
 case "$1" in
-    install)
-        update_scripts
-        restart_server
-        ;;
-    uninstall)
-        uninstall_scripts
-        restart_server
-        ;;
-#    update)
-#        update_scripts
-#        restart_server
-#        ;;
-    *)
-        echo "Usage: $0 {install|uninstall}"
-        exit 2
-esac
+  install)
+    remove_agent && sleep 1
+    install_agent2 && sleep 1
 
+    update_scripts
+    restart_server
+    ;;
+  uninstall)
+    uninstall_scripts
+    restart_server
+    ;;
+  *)
+    echo "Usage: $0 {install|uninstall}"
+    exit 2
+esac
