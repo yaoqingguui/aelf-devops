@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#set -e
+set -e
+
 ServerIP="${2:-172.31.15.92}"
 
 GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
@@ -8,7 +9,6 @@ GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
 OLD_FOLDER_DIR="/etc/zabbix/zabbix_agentd.d/aelf-devops"
 FOLDER_DIR="/etc/zabbix/aelf-devops"
 CONFIG_FILE="/etc/zabbix/zabbix_agent2.conf"
-CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
 
 
 remove_agent() {
@@ -65,6 +65,8 @@ update_scripts() {
   if [ -d "${FOLDER_DIR}" ]; then
     cd ${FOLDER_DIR} && { git pull && [ $? -ne 0 ] && exit 0; }
     FILE_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep "zabbix-user-parameter.conf"|grep -c "Include=${FOLDER_DIR}")
+
+    CONF_NUM=$(grep -Ev "^#|^$" ${CONFIG_FILE}| grep -c "Include=${FOLDER_DIR}")
 
     if [ "${CONF_NUM}" -ne 0 ] && [ "${FILE_NUM}" -eq 0 ]; then
       sed -i '/aelf-devops/d' ${CONFIG_FILE}
