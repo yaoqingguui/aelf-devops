@@ -19,7 +19,11 @@ def node_block_height_utctime(height_num, ip="127.0.0.1"):
     params = {"blockHeight": height_num}
     res_date_str = requests.get(url=height_url, params=params).text
     res_date_str = json.loads(res_date_str)  # Format data as dictionary format
-    utc_time = res_date_str["Header"]["Time"]
+    try:
+        utc_time = res_date_str["Header"]["Time"]
+    except KeyError:
+        utc_time = res_date_str["header"]["time"]
+
     return utc_time
 
 
@@ -34,7 +38,12 @@ if __name__ == '__main__':
             local_time = time.localtime(time.time())
             local_time_stamp = int(time.mktime(local_time))
             block_utc_time_str = f"{block_utc_time.split('T')[0]} {block_utc_time.split('T')[1].split('.')[0]}"
-            block_utc_time_array = time.strptime(block_utc_time_str, "%Y-%m-%d %H:%M:%S")
+            try:
+                block_utc_time_array = time.strptime(block_utc_time_str, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                block_utc_time_str = f"{block_utc_time_str.split('Z')[0]}"
+                block_utc_time_array = time.strptime(block_utc_time_str, "%Y-%m-%d %H:%M:%S")
+
             block_utc_time_stamp = int(time.mktime(block_utc_time_array))
             time_diff = local_time_stamp - block_utc_time_stamp
             print(time_diff)
