@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -e
+set -e
 
 ServerIP="${2:-172.31.15.92}"
 
