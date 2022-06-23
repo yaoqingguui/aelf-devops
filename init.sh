@@ -8,7 +8,19 @@ GITHUB_URL="https://github.com/AElfProject/aelf-devops.git"
 #FOLDER_DIR=$(cd "$(dirname "$0")";pwd)
 OLD_FOLDER_DIR="/etc/zabbix/zabbix_agentd.d/aelf-devops"
 FOLDER_DIR="/etc/zabbix/aelf-devops"
-CONFIG_FILE="/etc/zabbix/zabbix_agent2.conf"
+
+
+Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
+if [ "${Ubuntu_Version_ID}" = "16.04" ]; then
+  CONFIG_FILE="/etc/zabbix/zabbix_agentd.conf"
+  agent_client_server="/etc/init.d/zabbix-agent"
+elif [ "${Ubuntu_Version_ID}" = "18.04" ] || [ "${Ubuntu_Version_ID}" = "20.04" ]; then
+  CONFIG_FILE="/etc/zabbix/zabbix_agent2.conf"
+  agent_client_server="/etc/init.d/zabbix-agent2"
+else
+  echo "System version mismatch"
+  exit 1
+fi
 
 
 remove_agent() {
@@ -33,9 +45,11 @@ config_agent2() {
 install_agent2() {
   agent2_num=$(dpkg -l |grep  "^ii"|awk '{print $2}' |grep -wc zabbix-agent2)
   if [ "${agent2_num}" -eq 0 ]; then
-    Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
+#    Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
     if [ ! -f "/tmp/zabbix-release_6.0-1+ubuntu${Ubuntu_Version_ID}_all.deb" ]; then
-      wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb -P /tmp
+      wget --no-check-certificate \
+      https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb \
+      -P /tmp
     fi
     dpkg -i /tmp/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb
     apt -y update
@@ -88,7 +102,7 @@ update_scripts() {
 
 
 restart_server() {
-  /etc/init.d/zabbix-agent2 restart
+  ${agent_client_server} restart
 }
 
 
