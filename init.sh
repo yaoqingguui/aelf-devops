@@ -14,9 +14,11 @@ Ubuntu_Version_ID=$(grep "VERSION_ID" /etc/os-release | awk -F '"' '{print $2}')
 if [ "${Ubuntu_Version_ID}" = "16.04" ]; then
   CONFIG_FILE="/etc/zabbix/zabbix_agentd.conf"
   agent_client_server="/etc/init.d/zabbix-agent"
+  agent_name="zabbix-agent"
 elif [ "${Ubuntu_Version_ID}" = "18.04" ] || [ "${Ubuntu_Version_ID}" = "20.04" ]; then
   CONFIG_FILE="/etc/zabbix/zabbix_agent2.conf"
   agent_client_server="/etc/init.d/zabbix-agent2"
+  agent_name="zabbix-agent2"
 else
   echo "System version mismatch"
   exit 1
@@ -53,7 +55,7 @@ install_agent2() {
     fi
     dpkg -i /tmp/zabbix-release_6.0-1+ubuntu"${Ubuntu_Version_ID}"_all.deb
     apt -y update
-    apt install -y zabbix-agent2
+    apt install -y ${agent_name}
     config_agent2
   fi
 }
