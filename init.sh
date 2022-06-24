@@ -29,7 +29,7 @@ remove_agent() {
   agent_num=$(dpkg -l |grep  "^ii"|awk '{print $2}' |grep -wc zabbix-agent)
   if [ "${agent_num}" -ne 0 ]; then
     systemctl stop zabbix-agent.service
-    cp -a /etc/zabbix /etc/zabbox_bak_"$(date '+%Y%m%d-%H%M%S')"
+    cp -a /etc/zabbix /etc/zabbix_bak_"$(date '+%Y%m%d-%H%M%S')"
     dpkg -l |grep  "^ii"|awk '{print $2}' |grep -E zabbix | xargs apt-get --purge remove -y
   fi
 }
